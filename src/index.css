@@ -1,11 +1,143 @@
 body {
   margin: 0;
   font-family: system-ui, sans-serif;
-  background-color: #f5f5f5;
+  background-color: #283a55;
   color: #333;
 }
 
 .app {
   padding: 2rem;
   text-align: center;
+}
+
+.screen {
+  width: auto;
+  height: 90vh;
+  background-color: #3f5a83; 
+  display: flex;
+  justify-content: center;
+  padding-top: 30vh;
+  color: #ffffff;
+  font-size: 1.5rem;
+  box-sizing: border-box;
+  border-radius: 10px;
+}
+
+.startButton{
+  background-color: #4caf50;
+  color: white;
+  font-size: 1.5rem;
+  padding: 15px 25px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.startButton:hover {
+  background-color: #45a049;
+}
+
+.goButton{
+  background-color: #715ede;
+  color: white;
+  font-size: 2rem;
+  margin-top: 20px;
+  padding: 20px 55px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.goButton:hover {
+  background-color: #5b4caf;
+}
+
+.configButton{
+  margin-top: 1rem;
+  background-color: #c15b5b;
+  color: white;
+  font-size: 1rem;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.configButton:hover{
+  background-color: #8b4242;
+}
+
+.resetButton {
+  padding: 6px 12px;
+  margin-top: 15px;
+  margin-left: 60%;
+  font-size: 1rem;
+  border-radius: 6px;
+  background-color: #5c49bd;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.resetButton:hover {
+  background-color: #403384;
+}
+
+.config-container {
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  margin-top: 1rem;
+}
+
+.config-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.config-item {
+  min-width: 150px;
+  max-width: 200px;
+  background-color: #5082ce;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.config-item label {
+  display: block;
+  font-weight: bold;
+  font-size: 1rem;
+  margin-bottom: 0.1rem;
+}
+
+.config-item input {
+  border-radius: 8px;
+  border-width: 0.1rem;
+  border-color: #00fbff;
+  width: 25%;
+  padding: 4px;
+}
+
+.config-item small {
+  font-size: 0.85rem;
+  color: #ffffff;
+  display: block;
+  word-wrap: break-word;
+  white-space: normal;
+  align-items: center;
+}
+
+.countdown {
+  font-size: 6rem;
+  color: #ffffff;
+  text-align: center;
+  animation: pop 0.3s ease;
+}
+
+@keyframes pop {
+  0% { transform: scale(0.9); opacity: 0.5; }
+  100% { transform: scale(1); opacity: 1; }
 }

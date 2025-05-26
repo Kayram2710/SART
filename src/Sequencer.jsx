@@ -120,7 +120,7 @@ function Sequencer({ initTime, middleTime, endTime, target, length, sparcity, on
     return (
       <div style={{ textAlign: 'center' }}>
         <div style={{ fontSize: '8rem' }}>{display}</div>
-        <button onClick={handleClick} style={{ fontSize: '2rem' }}>GO</button>
+        <button onClick={handleClick} className="goButton">GO</button>
       </div>
     );
   }
