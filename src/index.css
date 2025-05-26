@@ -76,8 +76,9 @@ body {
 .resetButton {
   padding: 6px 12px;
   margin-top: 15px;
-  margin-left: 60%;
+  margin-left: 55%;
   margin-bottom: 20px;
+  margin-right: 10px;
   font-size: 1rem;
   border-radius: 6px;
   background-color: #5c49bd;
@@ -146,4 +147,39 @@ body {
 @keyframes pop {
   0% { transform: scale(0.9); opacity: 0.5; }
   100% { transform: scale(1); opacity: 1; }
+}
+
+.results {
+  width: 100%;
+  padding: 1rem 2rem;
+  color: white;
+}
+
+.results-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 2rem;
+}
+
+.results-table th,
+.results-table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.results-table th {
+  background-color: #354e74;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.results-table td {
+  background-color: #4c6691;
+}
+
+.results-screen {
+  padding-top: 5vh !important;
+  padding-bottom: 5vh;
 }

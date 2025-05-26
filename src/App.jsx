@@ -1,6 +1,7 @@
 import React, { useState , useEffect} from 'react';
 import Sequencer from './Sequencer';
 import MainMenu from './MainMenu';
+import Results from './Results';
 import { loadConfigFromCookies, saveConfigToCookies } from './configStorage';
 
 function App() {
@@ -10,6 +11,8 @@ function App() {
     </div>
   );
 }
+
+const TEST_PASSWORD = "pass";
 
 function Screen() {
   const [screen, setScreen] = useState('menu');
@@ -28,20 +31,47 @@ function Screen() {
   }, [config]);
   const [results, setResults] = useState(null);
 
+  const [pendingResults, setPendingResults] = useState(null);
+
   const setupTest = () => setScreen('count');
   const goToTest = () => setScreen('test');
-  const goToResults = (score, responseTimes) => {
-    setResults({ score, responseTimes });
-    setScreen('results');
+  const goToResults = (score, responseTimes, sequence) => {
+    setPendingResults({ score, responseTimes, sequence });
+    setScreen('complete');
   };
+  
+
+  const confirmResults = () => {
+    const input = prompt("Enter password to view results:");
+    if (input === TEST_PASSWORD) {
+      setResults(pendingResults);
+      setScreen('results');
+    } else {
+      alert("Incorrect password.");
+    }
+  };
+
   const goToMenu = () => setScreen('menu');
 
   return (
-    <div className="screen">
+    <div className={`screen ${screen === 'results' ? 'results-screen' : ''}`}>
       {screen === 'menu' && <MainMenu config={config} setConfig={setConfig} start={setupTest} />}
       {screen === 'count' && <Countdown start={goToTest} />}
       {screen === 'test' && <Test config={config} onComplete={goToResults} />}
       {screen === 'results' && <Results results={results} back={goToMenu} />}
+      {screen === 'complete' && <CompleteScreen onConfirm={confirmResults} />}
+
+    </div>
+  );
+}
+
+function CompleteScreen({ onConfirm }) {
+  return (
+    <div>
+      <h1>Test Complete!</h1>
+      <button onClick={onConfirm} className='startButton'>
+        Check Results
+      </button>
     </div>
   );
 }
@@ -77,20 +107,6 @@ function Countdown({ start }) {
 
 function Test({ config, onComplete }) {
   return <Sequencer {...config} onComplete={onComplete} />;
-}
-
-function Results({ results, back }) {
-  return (
-    <div>
-      <h1>Results</h1>
-      <p>Score: {results.score.join(', ')}</p>
-      <p>
-        Response Times:{' '}
-        {results.responseTimes.map(r => (r >= 0 ? `${r} ms` : '×')).join(', ')}
-      </p>
-      <button onClick={back}>Return to Menu</button>
-    </div>
-  );
 }
 
 export default App;

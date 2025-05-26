@@ -110,12 +110,11 @@ function Sequencer({ initTime, middleTime, endTime, target, length, sparcity, on
         setPhase(0);
       };
   
-    if (index >= sequence.current.length) {
-      if (typeof onComplete === 'function') {
-        onComplete(score, responseTimes);
-      }
-      return null;
-    }
+      useEffect(() => {
+        if (index >= sequence.current.length && typeof onComplete === 'function') {
+          onComplete(score, responseTimes, sequence.current);
+        }
+      }, [index, onComplete, score]);
   
     return (
       <div style={{ textAlign: 'center' }}>
