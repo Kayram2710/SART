@@ -51,14 +51,18 @@ function Screen() {
     }
   };
 
-  const goToMenu = () => setScreen('menu');
+  const goToMenu = () => {
+	if (window.confirm("Are you sure you want to go back? You will lose all unsaved data.")) {
+		setScreen('menu');
+	}};
+
 
   return (
     <div className={`screen ${screen === 'results' ? 'results-screen' : ''}`}>
       {screen === 'menu' && <MainMenu config={config} setConfig={setConfig} start={setupTest} />}
       {screen === 'count' && <Countdown start={goToTest} />}
       {screen === 'test' && <Test config={config} onComplete={goToResults} />}
-      {screen === 'results' && <Results results={results} back={goToMenu} />}
+      {screen === 'results' && <Results results={results} back={goToMenu} config={config} />}
       {screen === 'complete' && <CompleteScreen onConfirm={confirmResults} />}
 
     </div>

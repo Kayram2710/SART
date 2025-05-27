@@ -183,3 +183,32 @@ body {
   padding-top: 5vh !important;
   padding-bottom: 5vh;
 }
+
+.returnButton {
+  padding: 12px 20px;
+  font-size:1.4rem;
+  border-radius: 6px;
+  background-color: #ffbe4d;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.returnButton:hover {
+  background-color: #af8337;
+}
+
+.saveButton {
+  padding: 12px 40px;
+  font-size: 1.4rem;
+  margin-right: 50px;
+  border-radius: 6px;
+  background-color: #45944d;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.saveButton:hover {
+  background-color: #306a36;
+}

@@ -63,13 +63,12 @@ function Sequencer({ initTime, middleTime, endTime, target, length, sparcity, on
       if (phase === 0) {
         setDisplay(sequence.current[index]);
         setClicked(false);
-        startTime.current = null;
+        startTime.current = Date.now();
         timeout = setTimeout(() => setPhase(1), initTime);
       } else if (phase === 1) {
         setDisplay('*');
         timeout = setTimeout(() => {
           setPhase(2);
-          startTime.current = Date.now();
         }, middleTime);
       } else if (phase === 2) {
         setDisplay(<strong>*</strong>);
@@ -94,11 +93,11 @@ function Sequencer({ initTime, middleTime, endTime, target, length, sparcity, on
         const current = sequence.current[index];
         const wasTarget = current === target;
         let reactionTime = -1;
+        reactionTime = Date.now() - startTime.current;
       
         setClicked(true);
       
-        if (phase === 2 && startTime.current != null) {
-          reactionTime = Date.now() - startTime.current;
+        if (phase === 2) {
           setScore(prev => [...prev, wasTarget ? 0 : 1]);
         } else {
           setScore(prev => [...prev, 0]);
