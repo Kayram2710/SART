@@ -1,28 +1,7 @@
-import { useState } from 'react';
 import { downloadCSV } from './csvExports';
 
 function Results({ results, back, config }) {
     const { score, responseTimes, sequence } = results;
-
-    const exportData = () => {
-        const name = prompt("Enter a file name");
-        if (!name) return;
-      
-        const csvData = combined.map((entry, i) => ({
-          Index: i + 1,
-          "Number Shown": entry.number,
-          "Total Time To Click Button (ms)": entry.responseTime,
-          "Response Time (ms)": entry.adjustedTime,
-          "Score": entry.score,
-          Reason: score[i] === 1 ? (entry.adjustedTime >= 0 ? "Clicked Button on Non Target":  "Timed Out on Target") : (entry.adjustedTime >= 0 ? "Clicked Button on Target" : (entry.adjustedTime === -1 ? 'Timed Out on Non-Target' : 'Clicked Button Too Early') ),
-          "Textual Translation": '->',
-          "Total Time To Click Button (ms) - Textual": entry.responseTime >= 0 ? `${entry.responseTime} ms` : 'N/A - Timed Out',
-          "Response Time (ms) - Textual": entry.adjustedTime >= 0 ? `${entry.adjustedTime} ms` : (entry.adjustedTime === -1 ? 'N/A -Timed Out' : 'N/A - Too Early'),
-          "Score - Textual": entry.score === 1 ? 'Correct' : 'Incorrect',
-        }));
-      
-        downloadCSV(csvData, name);
-    };
   
     const adjustedTimes = responseTimes.map(t =>
       t >= 0 ? t - (config.initTime + config.middleTime) : -1
@@ -49,6 +28,61 @@ function Results({ results, back, config }) {
   
     const total = score.length;
     const correct = score.filter(s => s === 1).length;
+
+    const exportData = () => {
+        const name = prompt("Enter a file name");
+        if (!name) return;
+      
+        const headerRows = [
+            [`Results Overview`],
+            [`Score (/${total})`, `${correct}`],
+            [`Accuracy`, `${(correct/total)*100}%`],
+            [`Average Response Time`, `${average} ms`],
+            [`Best Response Time`, `${best} ms`],
+            [`Worst Response Time`, `${worst} ms`],
+            [],
+            [`Configuration Specs`],
+            [`Test Length`, config.length],
+            [`Target Number`, config.target],
+            [`Target Spacing`, config.sparcity],
+            [`Initial Display Time (ms)`, config.initTime],
+            [`Mask Time (ms)`, config.middleTime],
+            [`Response Window (ms)`, config.endTime],
+            [],
+        ];
+      
+        // Tabular response data
+        const csvData = combined.map((entry, i) => ({
+          Index: i + 1,
+          "Number Shown": entry.number,
+          "Total Time To Click Button (ms)": entry.responseTime,
+          "Response Time (ms)": entry.adjustedTime,
+          "Score": entry.score,
+          "Reason":
+            score[i] === 1
+              ? entry.adjustedTime >= 0
+                ? "Clicked Button on Non Target"
+                : "Timed Out on Target"
+              : entry.adjustedTime >= 0
+              ? "Clicked Button on Target"
+              : entry.adjustedTime === -1
+              ? "Timed Out on Non-Target"
+              : "Clicked Button Too Early",
+          " ": " ",
+          "Total Time To Click Button (ms) - Textually Aided":
+            entry.responseTime >= 0 ? `${entry.responseTime} ms` : "N/A - Timed Out",
+          "Response Time (ms) - Textually Aided":
+            entry.adjustedTime >= 0
+              ? `${entry.adjustedTime} ms`
+              : entry.adjustedTime === -1
+              ? "N/A -Timed Out"
+              : "N/A - Too Early",
+          "Score - Textually Aided": entry.score === 1 ? "Correct" : "Incorrect",
+        }));
+      
+        downloadCSV(headerRows, csvData, name);
+      };
+      
   
     return (
       <div className="results-container">
