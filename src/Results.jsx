@@ -87,7 +87,7 @@ function Results({ results, back, config }) {
     return (
       <div className="results-container">
         <h1>Results</h1>
-        <p><strong>Score:</strong> {correct} / {total}</p>
+        <p><strong>Score:</strong> {correct} / {total} ({(correct / total)*100}%) </p>
         <p><strong>Average Response Time:</strong> {average} ms</p>
         <p><strong>Best:</strong> {best} ms | <strong>Worst:</strong> {worst} ms</p>
   
