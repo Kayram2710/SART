@@ -41,7 +41,7 @@ function Results({ results, back, config }) {
             [`Best Response Time`, `${best} ms`],
             [`Worst Response Time`, `${worst} ms`],
             [],
-            [`Configuration Specs`],
+            [`Test Configuration Specs`],
             [`Test Length`, config.length],
             [`Target Number`, config.target],
             [`Target Spacing`, config.sparcity],
