@@ -212,3 +212,58 @@ body {
 .saveButton:hover {
   background-color: #306a36;
 }
+/* lines */
+.tLine { margin:.45rem 0; }
+
+/* demo */
+.demo     { margin:1.6rem 0; opacity:0; animation:fade .8s forwards; }
+.demoNum  { font-size:6rem; margin-bottom:1rem; }
+
+.goDemo{
+  background-color: #715ede;
+  color: white;
+  font-size: 2rem;
+  margin-top: 20px;
+  padding: 20px 55px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  pointer-events:none;
+}
+
+/* auto-press effect */
+.goDemo.press { animation:press .25s ease; }
+@keyframes press { 0%{transform:scale(1);}50%{transform:scale(.85);}100%{transform:scale(1);} }
+
+/* fade helper */
+.fadeDemo { opacity:0; animation:fade .7s forwards; }
+@keyframes fade { to{opacity:1;} }
+
+/* navigation */
+.btnRow { display:flex; justify-content:center; gap:1.2rem; margin-top:2rem; }
+.btnRow button { background:none; border:none; color:#00e1ff; font-size:2rem; cursor:pointer; }
+
+/* ensure each page remounts cleanly to avoid flash */
+.tutorialScreen { position:relative; }
+
+/* full viewport layer that captures click until fade is done */
+.skipLayer {
+  position: fixed;
+  inset: 0;
+  background: transparent;
+  z-index: 1000;
+}
+
+/* wrapper + box keep layout centred */
+.tutorialWrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.tutorialBox     { max-width:700px; width:100%; padding:1rem; text-align:center; }

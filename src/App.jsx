@@ -2,6 +2,7 @@ import React, { useState , useEffect} from 'react';
 import Sequencer from './Sequencer';
 import MainMenu from './MainMenu';
 import Results from './Results';
+import Tutorial from './Tutorial';
 import { loadConfigFromCookies, saveConfigToCookies } from './configStorage';
 
 function App() {
@@ -34,6 +35,8 @@ function Screen() {
   const [pendingResults, setPendingResults] = useState(null);
 
   const setupTest = () => setScreen('count');
+  const setupTutorial = () => setScreen('tutorial');
+  
   const goToTest = () => setScreen('test');
   const goToResults = (score, responseTimes, sequence) => {
     setPendingResults({ score, responseTimes, sequence });
@@ -59,11 +62,12 @@ function Screen() {
 
   return (
     <div className={`screen ${screen === 'results' ? 'results-screen' : ''}`}>
-      {screen === 'menu' && <MainMenu config={config} setConfig={setConfig} start={setupTest} />}
+      {screen === 'menu' && <MainMenu config={config} setConfig={setConfig} start={setupTutorial} />}
       {screen === 'count' && <Countdown start={goToTest} />}
       {screen === 'test' && <Test config={config} onComplete={goToResults} />}
       {screen === 'results' && <Results results={results} back={goToMenu} config={config} />}
       {screen === 'complete' && <CompleteScreen onConfirm={confirmResults} />}
+      {screen === 'tutorial' && <Tutorial config={config} onDone={setupTest} />}
 
     </div>
   );
