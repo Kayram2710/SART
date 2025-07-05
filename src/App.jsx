@@ -57,12 +57,14 @@ function Screen() {
 
   return (
     <div className={`screen ${screen === 'results' ? 'results-screen' : ''}`}>
-      {screen === 'menu' && <MainMenu config={config} setConfig={setConfig} start={setupTest} />}
-      {screen === 'count' && <Countdown start={goToTest} />}
-      {screen === 'test' && <Test config={config} onComplete={goToResults} />}
-      {screen === 'results' && <Results results={results} back={goToMenu} config={config} />}
-      {screen === 'complete' && <CompleteScreen onConfirm={confirmResults} />}
-      {screen === 'tutorial' && <Tutorial config={config} onDone={startTest} />}
+      <div className='contentArea'>
+        {screen === 'menu' && <MainMenu config={config} setConfig={setConfig} start={setupTest} />}
+        {screen === 'count' && <Countdown start={goToTest} />}
+        {screen === 'test' && <Test config={config} onComplete={goToResults} />}
+        {screen === 'results' && <Results results={results} back={goToMenu} config={config} />}
+        {screen === 'complete' && <CompleteScreen onConfirm={confirmResults} />}
+        {screen === 'tutorial' && <Tutorial config={config} onDone={startTest} />}
+      </div>
     </div>
   );
 }

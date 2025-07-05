@@ -117,7 +117,7 @@ function Sequencer({ initTime, middleTime, endTime, target, length, sparcity, on
       }, [index, onComplete, score]);
   
     return (
-      <div style={{ textAlign: 'center' }}>
+      <div style={{ textAlign: 'center' }} className='contentArea'>
         <div style={{ fontSize: '8rem' }}>{display}</div>
         <button onClick={handleClick} className="goButton">{t('goButton')}</button>
       </div>

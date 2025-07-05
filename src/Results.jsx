@@ -85,7 +85,7 @@ function Results({ results, back, config }) {
   };
 
   return (
-    <div className="results-container">
+    <div className="results-container contentArea">
       <h1>{t('results')}</h1>
 
       <p>
