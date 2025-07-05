@@ -23,12 +23,12 @@ export const strings = {
 
     /* -------- Tutorial texts -------- */
     tut1l1: 'Welcome to the SART examination.',
-    tut1l2: 'During this test, you will be shown sequences that look like the following:',
+    tut1l2: 'During this test, you will be shown character sequences that look like this:',
     tut2l1: 'Your task is simple,',
     tut2l2: 'As soon as the * turns bold,',
-    tut2l3: 'Click the Go button:',
-    tut3l1: nb => `However, if the number shown is ${nb},`,
-    tut3l2: 'Do not click the button,',
+    tut2l3: 'Click the "GO" button or the space bar:',
+    tut3l1: nb => `However, if the number shown at the start of the sequence is ${nb},`,
+    tut3l2: 'Do NOT click the "GO" button nor the space bar,',
     tut3l3: 'Let the time run out instead:',
     tut4l1: 'Now that the instructions are clear,',
     tut4l2: 'Are you ready to start the test?',
@@ -130,16 +130,16 @@ export const strings = {
 
     /* -------- Tutorial -------- */
     tut1l1: 'Bienvenido al examen SART.',
-    tut1l2: 'Durante esta prueba verás secuencias como la siguiente:',
+    tut1l2: 'Durante esta prueba verás secuencias de caracteres como estas:',
     tut2l1: 'Tu tarea es sencilla,',
-    tut2l2: 'Cuando el * se vuelva negrita,',
-    tut2l3: 'Haz clic en el botón Go:',
-    tut3l1: nb => `Sin embargo, si el número mostrado es ${nb},`,
-    tut3l2: 'No hagas clic,',
-    tut3l3: 'Deja que se agote el tiempo:',
+    tut2l2: 'Cuando el * se ponga en negrita,',
+    tut2l3: 'Pulsa el botón "GO" o la barra espaciadora:',
+    tut3l1: nb => `Sin embargo, si el número que aparece al inicio de la secuencia es ${nb},`,
+    tut3l2: 'NO pulses el botón "GO" ni la barra espaciadora,',
+    tut3l3: 'deja que se agote el tiempo:',
     tut4l1: 'Ahora que las instrucciones están claras,',
     tut4l2: '¿Listo para empezar la prueba?',
-    start:  'Iniciar Prueba',
+    start:  'Iniciar prueba',
 
     /* -------- Secuenciador -------- */
     goButton: 'GO',

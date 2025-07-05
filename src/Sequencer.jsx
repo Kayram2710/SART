@@ -109,7 +109,19 @@ function Sequencer({ initTime, middleTime, endTime, target, length, sparcity, on
         setIndex(prev => prev + 1);
         setPhase(0);
       };
-  
+
+        /* keyboard handler */
+        useEffect(() => {
+          function onKey(e) {
+            if (e.code === 'Space') {
+              e.preventDefault();
+              handleClick();
+            }
+          }
+          window.addEventListener('keydown', onKey);
+          return () => window.removeEventListener('keydown', onKey);
+        }, [handleClick]);
+
       useEffect(() => {
         if (index >= sequence.current.length && typeof onComplete === 'function') {
           onComplete(score, responseTimes, sequence.current);

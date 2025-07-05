@@ -59,7 +59,7 @@ const makePages = (cfg, key) => [
     demo : { showButton:true, autoClick:true,  skipTarget:false, replayKey:key }
   },
   {
-    lines: [ t('tut3l1', cfg.target), t('tut3l2'), t('tut3l3') ],
+    lines: [ t('tut3l1', cfg.target), t('tut3l2'), t('tut3l3'), ' ' ],
     demo : { showButton:true, autoClick:true,  skipTarget:true,  replayKey:key }
   },
   {
@@ -69,50 +69,72 @@ const makePages = (cfg, key) => [
 ];
 
 export default function Tutorial({ config, onDone }) {
-  const demoCfg = { ...config, sequence: [7, 2, config.target, 5] };
+    const demoCfg = { ...config, sequence: [7, 2, config.target, 5] };
 
-  const [page, setPage]    = useState(0);
-  const [vis,  setVis]     = useState(1);
-  const [key,  setKey]     = useState(0);
-  const [navVisible, setNavVisible] = useState(false);
-  const timer = useRef(null);
+    const [page, setPage]    = useState(0);
+    const [vis,  setVis]     = useState(1);
+    const [key,  setKey]     = useState(0);
+    const [navVisible, setNavVisible] = useState(false);
+    const timer = useRef(null);
 
-  const pages = makePages(demoCfg, key);
-  const cur   = pages[page];
-  const last  = pages.length - 1;
+    const pages = makePages(demoCfg, key);
+    const cur   = pages[page];
+    const last  = pages.length - 1;
 
-  /* line-by-line fade-in */
-  useEffect(() => {
-    clearInterval(timer.current);
-    setVis(1);
-    setNavVisible(false);
-    const total = cur.lines.length;
-    timer.current = setInterval(() => {
-      setVis(v => {
-        if (v + 1 >= total) clearInterval(timer.current);
-        return v + 1;
-      });
-    }, 2000);
-    return () => clearInterval(timer.current);
-  }, [page, key]);
+    /* line-by-line fade-in */
+    useEffect(() => {
+        clearInterval(timer.current);
+        setVis(1);
+        setNavVisible(false);
+        const total = cur.lines.length;
+        timer.current = setInterval(() => {
+        setVis(v => {
+            if (v + 1 >= total) clearInterval(timer.current);
+            return v + 1;
+        });
+        }, 2000);
+        return () => clearInterval(timer.current);
+    }, [page, key]);
 
-  /* skip click */
-  const finishFade = () => {
-    clearInterval(timer.current);
-    setVis(cur.lines.length);
-    setNavVisible(true);
-  };
+    /* skip click */
+    const finishFade = () => {
+        clearInterval(timer.current);
+        setVis(cur.lines.length);
+        setNavVisible(true);
+    };
 
-  const ready = vis >= cur.lines.length;
+    const ready = vis >= cur.lines.length;
 
-  /* delayed nav appearance */
-  useEffect(() => {
-    if (!ready) return;
-    const id = setTimeout(() => setNavVisible(true), 9000);
-    return () => clearTimeout(id);
-  }, [ready, page, key]);
+    /* keyboard handler */
+    useEffect(() => {
+        function onKey(e) {
+        if (e.code !== 'Space') return;
+        e.preventDefault();
 
-  const replay = () => setKey(k => k + 1);
+        if (!ready) {
+            finishFade();
+            return;
+        }
+
+        if (page < last) {
+            setPage(p => p + 1);
+        } else {
+            //onDone();
+        }
+        }
+        window.addEventListener('keydown', onKey);
+        return () => window.removeEventListener('keydown', onKey);
+    }, [ready, page, last, finishFade, onDone]);
+
+
+    /* delayed nav appearance */
+    useEffect(() => {
+        if (!ready) return;
+        const id = setTimeout(() => setNavVisible(true), 9000);
+        return () => clearTimeout(id);
+    }, [ready, page, key]);
+
+    const replay = () => setKey(k => k + 1);
 
   return (
     <div key={page} className="tutorialWrapper contentArea" onClick={finishFade}>
