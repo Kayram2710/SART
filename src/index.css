@@ -14,22 +14,30 @@ body {
 
 .screen {
   width: 100%;
-  background-color: #3f5a83; 
+  background-color: #3f5a83;
+
+  /* centre both axes */
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding-top: 28vh;
+  flex-direction: column;
+  justify-content: center;      /* vertical centring */
+  align-items: center;          /* horizontal centring */
+
+  /* safe padding so text never touches the edge */
+  padding: 4vh 6vw;             /* vertical | horizontal */
+
   color: #ffffff;
   font-size: 1.5rem;
   box-sizing: border-box;
   border-radius: 10px;
+
+  /* fill the viewport minus the outer .app padding (2 rem top & bottom) */
   min-height: calc(100vh - 4rem);
 }
 
 .startButton{
   background-color: #4caf50;
   color: white;
-  font-size: 1.5rem;
+  font-size: 2.2rem;
   padding: 15px 25px;
   border: none;
   border-radius: 8px;
@@ -335,4 +343,13 @@ body {
   background: #ffffff;
   color: #000;
   font-size: 1rem;
+}
+
+.contentArea {
+  width: 100%;
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
 }

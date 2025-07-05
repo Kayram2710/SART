@@ -12,7 +12,12 @@ export function setLang(code) {
   window.location.reload();
 }
 
-export function t(key) {
-  const lang = getLang();
-  return strings[lang]?.[key] ?? strings.en[key] ?? key;
+export function t(key, ...args) {
+  const lang      = getLang();
+  const entry     =
+    (strings[lang] && strings[lang][key]) ??
+    (strings[FALLBACK_LANG] && strings[FALLBACK_LANG][key]) ??
+    key;
+
+  return typeof entry === 'function' ? entry(...args) : entry;
 }

@@ -32,7 +32,7 @@ export const strings = {
     tut3l3: 'Let the time run out instead:',
     tut4l1: 'Now that the instructions are clear,',
     tut4l2: 'Are you ready to start the test?',
-    start:  'Start',
+    start:  'Start Test',
 
     /* -------- Sequencer -------- */
     goButton: 'GO',
@@ -139,7 +139,7 @@ export const strings = {
     tut3l3: 'Deja que se agote el tiempo:',
     tut4l1: 'Ahora que las instrucciones están claras,',
     tut4l2: '¿Listo para empezar la prueba?',
-    start:  'Iniciar',
+    start:  'Iniciar Prueba',
 
     /* -------- Secuenciador -------- */
     goButton: 'GO',

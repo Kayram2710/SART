@@ -27,13 +27,12 @@ function MainMenu({ config, setConfig, start }) {
   }, [formOpen]);
 
   return (
-    <div>
+    <div className='contentArea'>
       <h1>{t('welcome')}</h1>
       <LanguageSelector/>
       <button className="startButton" onClick={start}>
         {t('startTest')}
       </button>
-      <br/>
       <div className="skipTut">
         <label>
           <input

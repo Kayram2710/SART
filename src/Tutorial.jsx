@@ -115,7 +115,7 @@ export default function Tutorial({ config, onDone }) {
   const replay = () => setKey(k => k + 1);
 
   return (
-    <div key={page} className="tutorialWrapper" onClick={finishFade}>
+    <div key={page} className="tutorialWrapper contentArea" onClick={finishFade}>
       {!ready && <div className="skipLayer" />}
       <div className="tutorialBox">
         {cur.lines.map((txt, i) => (
@@ -125,9 +125,14 @@ export default function Tutorial({ config, onDone }) {
         ))}
 
         {page === last && ready && (
-          <button className="startButton fadeDemo" onClick={onDone} style={{ marginTop: '1rem' }}>
-            {t('start')}
-          </button>
+            <div>
+                <br/>
+                <button className="startButton fadeDemo" onClick={onDone} style={{ marginTop: '1rem' }}>
+                    {t('start')}
+                </button>
+                <br/>
+                <br/>
+            </div>
         )}
 
         {cur.demo && <Demo active={ready} cfg={demoCfg} {...cur.demo} />}
