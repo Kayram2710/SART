@@ -1,9 +1,10 @@
-import React, { useState , useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Sequencer from './Sequencer';
 import MainMenu from './MainMenu';
-import Results from './Results';
-import Tutorial from './Tutorial';
+import Results   from './Results';
+import Tutorial  from './Tutorial';
 import { loadConfigFromCookies, saveConfigToCookies, loadSkipTutorial } from './configStorage';
+import { t } from './i18n';
 
 function App() {
   return (
@@ -27,40 +28,32 @@ function Screen() {
       endTime: 1250,
     })
   );
-    useEffect(() => {
-    saveConfigToCookies(config);
-  }, [config]);
-  const [results, setResults] = useState(null);
 
+  useEffect(() => saveConfigToCookies(config), [config]);
+  const [results, setResults] = useState(null);
   const [pendingResults, setPendingResults] = useState(null);
 
-  const setupTest = () => loadSkipTutorial() ? startTest() : startTutorial();
-
-  const startTest = () => setScreen('count');
+  const setupTest = () => (loadSkipTutorial() ? startTest() : startTutorial());
   const startTutorial = () => setScreen('tutorial');
-  
+  const startTest = () => setScreen('count');
   const goToTest = () => setScreen('test');
   const goToResults = (score, responseTimes, sequence) => {
     setPendingResults({ score, responseTimes, sequence });
     setScreen('complete');
   };
-  
 
   const confirmResults = () => {
-    const input = prompt("Enter password to view results:");
+    const input = prompt(t('pwdPrompt'));
     if (input === TEST_PASSWORD) {
       setResults(pendingResults);
       setScreen('results');
     } else {
-      alert("Incorrect password.");
+      alert(t('pwdWrong'));
     }
   };
 
   const goToMenu = () => {
-	if (window.confirm("Are you sure you want to go back? You will lose all unsaved data.")) {
-		setScreen('menu');
-	}};
-
+    if (window.confirm(t('backConfirm'))) setScreen('menu');};
 
   return (
     <div className={`screen ${screen === 'results' ? 'results-screen' : ''}`}>
@@ -70,7 +63,6 @@ function Screen() {
       {screen === 'results' && <Results results={results} back={goToMenu} config={config} />}
       {screen === 'complete' && <CompleteScreen onConfirm={confirmResults} />}
       {screen === 'tutorial' && <Tutorial config={config} onDone={startTest} />}
-
     </div>
   );
 }
@@ -78,9 +70,9 @@ function Screen() {
 function CompleteScreen({ onConfirm }) {
   return (
     <div>
-      <h1>Test Complete!</h1>
-      <button onClick={onConfirm} className='startButton'>
-        Check Results
+      <h1>{t('testComplete')}</h1>
+      <button onClick={onConfirm} className="startButton">
+        {t('checkResults')}
       </button>
     </div>
   );
@@ -91,29 +83,22 @@ function Countdown({ start }) {
 
   useEffect(() => {
     if (count <= 0) {
-      const timeout = setTimeout(() => {
-        start();
-      }, 800);
-      return () => clearTimeout(timeout);
+      const id = setTimeout(start, 800);
+      return () => clearTimeout(id);
     }
-
-    const timer = setTimeout(() => {
-      setCount(prev => prev - 1);
-    }, 1000);
-
-    return () => clearTimeout(timer);
+    const id = setTimeout(() => setCount(c => c - 1), 1000);
+    return () => clearTimeout(id);
   }, [count, start]);
 
   return (
     <div>
-      <h1>Test will start in...</h1>
+      <h1>{t('testWillStart')}</h1>
       <div className="countdown">
-        {count > 0 ? count : "Go!"}
+        {count > 0 ? count : t('go')}
       </div>
     </div>
   );
 }
-
 
 function Test({ config, onComplete }) {
   return <Sequencer {...config} onComplete={onComplete} />;

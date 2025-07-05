@@ -1,4 +1,5 @@
 import React, { useState , useEffect, useRef } from 'react';
+import { t } from './i18n'; 
 
 //Creates an array of random numbers following certain restrictions
 //Length = amount of numbers
@@ -118,7 +119,7 @@ function Sequencer({ initTime, middleTime, endTime, target, length, sparcity, on
     return (
       <div style={{ textAlign: 'center' }}>
         <div style={{ fontSize: '8rem' }}>{display}</div>
-        <button onClick={handleClick} className="goButton">GO</button>
+        <button onClick={handleClick} className="goButton">{t('goButton')}</button>
       </div>
     );
   }

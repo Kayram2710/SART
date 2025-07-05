@@ -18,7 +18,8 @@ export function downloadCSV(headerRows, csvData, defaultName = 'results') {
         ];
       
         // Create CSV and download
-        const blob = new Blob([rows.join('\n')], { type: 'text/csv' });
+        const csvText = '\uFEFF' + rows.join('\n');
+        const blob = new Blob([csvText], { type: 'text/csv;charset=utf-8;' }); 
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
