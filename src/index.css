@@ -309,3 +309,30 @@ body {
 .skipTut input[type="checkbox"]:checked::after {
   color: #fff;
 }
+
+.langSelector {
+  position: fixed;
+  top: 1rem;
+  right: 1.2rem;
+
+  background: #3f5a83;
+  color: #fff;
+  border: 2px solid #4f7cd1;
+  border-radius: 10px;
+  padding: 8px 14px;
+  font-size: 1.05rem;
+  cursor: pointer;
+  outline: none;
+  transition: background 0.25s, transform 0.15s;
+}
+
+.langSelector:hover {
+  background: #4f7cd1;
+  transform: translateY(-1px);
+}
+
+.langSelector option {
+  background: #ffffff;
+  color: #000;
+  font-size: 1rem;
+}

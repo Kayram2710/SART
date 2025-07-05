@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { setSkipTutorial, loadSkipTutorial, clearConfigCookies } from './configStorage';
 import { t, getLang, setLang } from './i18n';
+import LanguageSelector from './LanguageSelector';
 
 const CONFIG_META = {
   length:   { label: t('cfgLengthLabel'),   description: t('cfgLengthDesc')   },
@@ -28,16 +29,7 @@ function MainMenu({ config, setConfig, start }) {
   return (
     <div>
       <h1>{t('welcome')}</h1>
-
-      <select
-        className="langSelector"
-        value={getLang()}
-        onChange={e => setLang(e.target.value)}
-        style={{ marginBottom: '1rem' }}
-      >
-        <option value="en">EN</option>
-        <option value="es">ES</option>
-      </select>
+      <LanguageSelector/>
       <button className="startButton" onClick={start}>
         {t('startTest')}
       </button>
