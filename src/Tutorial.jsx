@@ -8,11 +8,10 @@ function Demo({ active, cfg, showButton, autoClick, skipTarget, replayKey }) {
   if (!active) return null;
 
   const { sequence, target, initTime, middleTime, endTime } = cfg;
-  const [i, setI]   = useState(0);   // start right at the first number
+  const [i, setI]   = useState(0);
   const [ph,setPh]  = useState(0);   // 0 number, 1 *, 2 bold *
   const [disp,setD] = useState("");
 
-  /* full reset on replay */
   useEffect(() => { setI(0); setPh(0); }, [replayKey]);
 
   useEffect(() => {
@@ -20,10 +19,8 @@ function Demo({ active, cfg, showButton, autoClick, skipTarget, replayKey }) {
 
     let t;
     if (ph === 0) {
-      // Show the current number immediately
       setD(sequence[i]);
 
-      // Add an extra 500 ms only for the very first number of the demo
       const extraDelay = i === 0 ? 500 : 0;
 
       t = setTimeout(() => setPh(1), initTime + extraDelay);
@@ -32,7 +29,7 @@ function Demo({ active, cfg, showButton, autoClick, skipTarget, replayKey }) {
       setD("*");
       t = setTimeout(() => setPh(2), middleTime);
     }
-    else {                       // ph === 2  (bold *)
+    else {
       setD(<strong>*</strong>);
 
       if (showButton && autoClick && !(skipTarget && sequence[i] === target)) {
@@ -92,22 +89,22 @@ const makePages = (cfg, key) => [
 ];
 
 export default function Tutorial({ config, onDone }) {
-  const demoCfg={ ...config, sequence:[7,2,config.target,5] };
+    const demoCfg={ ...config, sequence:[7,2,config.target,5] };
 
-  const [page,setPage] = useState(0);
-  const [vis,setVis]   = useState(1);
-  const [key,setKey]   = useState(0);
-  const [skipped, setSkipped] = useState(false);
-  const timer          = useRef(null);
+    const [page,setPage] = useState(0);
+    const [vis,setVis]   = useState(1);
+    const [key,setKey]   = useState(0);
+    const [navVisible, setNavVisible] = useState(false);
+    const timer          = useRef(null);
 
-  const pages = makePages(demoCfg, key);
-  const cur   = pages[page];
-  const last  = pages.length-1;
+    const pages = makePages(demoCfg, key);
+    const cur   = pages[page];
+    const last  = pages.length-1;
 
     useEffect(() => {
         clearInterval(timer.current);
-        setSkipped(false);
         setVis(1);
+        setNavVisible(false); 
         const total = cur.lines.length;
         timer.current = setInterval(() => {
         setVis(v => {
@@ -121,56 +118,61 @@ export default function Tutorial({ config, onDone }) {
     const finishFade = () => {
         clearInterval(timer.current);
         setVis(cur.lines.length);
-        setSkipped(true); 
+        setNavVisible(true);
+        console.log("bullshit test");
     };
 
-  const ready = vis >= cur.lines.length;
+    const ready = vis >= cur.lines.length;
 
-  /* replay both text & demo */
-  const replay = () => { setKey(k => k + 1); };
+    useEffect(() => {
+        if (!ready) return;
 
-  return (
-    <div key={page} className="tutorialWrapper">
-      {!ready && <div className="skipLayer" onClick={finishFade}/>}
+        const id = setTimeout(() => setNavVisible(true), 9000);
 
-      <div className="tutorialBox">
-        {cur.lines.map((txt,i)=>(
-          <p key={i} className="tLine"
-             style={{opacity:i<vis?1:0,transition:"opacity .6s"}}>
-            {txt}
-          </p>
-        ))}
+        return () => clearTimeout(id);
+    }, [ready, page, key]);
 
-        {page === last && ready && (
-            <button className="startButton fadeDemo" onClick={onDone} style={{ marginTop: '1rem' }}>
-                Start
-            </button>
+
+    const replay = () => { setKey(k => k + 1); };
+
+    return (
+        <div key={page} className="tutorialWrapper" onClick={finishFade}>
+        {!ready && <div className="skipLayer"/>}
+
+        <div className="tutorialBox">
+            {cur.lines.map((txt,i)=>(
+            <p key={i} className="tLine"
+                style={{opacity:i<vis?1:0,transition:"opacity .6s"}}>
+                {txt}
+            </p>
+            ))}
+
+            {page === last && ready && (
+                <button className="startButton fadeDemo" onClick={onDone} style={{ marginTop: '1rem' }}>
+                    Start
+                </button>
+                )}
+
+            {cur.demo && (
+            <Demo active={ready} cfg={demoCfg} {...cur.demo}/>
             )}
 
-        {cur.demo && (
-          <Demo active={ready} cfg={demoCfg} {...cur.demo}/>
-        )}
+            {navVisible && (
+                <div className="btnRow fadeDemo" onClick={e => e.stopPropagation()}>
+                    {page > 0 ? (
+                    <button onClick={() => setPage(p => p - 1)}><Back/></button>
+                    ) : <span style={{width:'2.5rem'}}/>}
 
-        {ready && (
-          <div 
-            className="btnRow fadeDemo"  
-            style={{ animationDelay: skipped ? '0s' : '9s' }}
-            onClick={e => e.stopPropagation()} >
+                    <button onClick={replay}><Replay/></button>
 
-            {page>0 ? (
-              <button onClick={()=>setPage(p=>p-1)}><Back/></button>
-            ) : <span style={{width:"2.5rem"}}/>}
-
-            <button onClick={replay}><Replay/></button>
-
-            {page<last ? (
-              <button onClick={()=>setPage(p=>p+1)}><Next/></button>
-            ) : (
-              <span style={{width:"2.5rem"}}/>
+                    {page < last ? (
+                    <button onClick={() => setPage(p => p + 1)}><Next/></button>
+                    ) : (
+                    <span style={{width:'2.5rem'}}/>
+                    )}
+                </div>
             )}
-          </div>
-        )}
-      </div>
+        </div>
     </div>
-  );
+    );
 }
