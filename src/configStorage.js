@@ -23,3 +23,10 @@ export function loadConfigFromCookies(defaultConfig) {
 export function clearConfigCookies() {
   Cookies.remove(COOKIE_KEY);
 }
+
+export function loadSkipTutorial() {
+  return document.cookie.includes("skipTutorial=true");
+}
+export function setSkipTutorial(val) {
+  document.cookie = `skipTutorial=${val};path=/;max-age=31536000`; // 1 year
+}

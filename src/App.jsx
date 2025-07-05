@@ -3,7 +3,7 @@ import Sequencer from './Sequencer';
 import MainMenu from './MainMenu';
 import Results from './Results';
 import Tutorial from './Tutorial';
-import { loadConfigFromCookies, saveConfigToCookies } from './configStorage';
+import { loadConfigFromCookies, saveConfigToCookies, loadSkipTutorial } from './configStorage';
 
 function App() {
   return (
@@ -19,7 +19,7 @@ function Screen() {
   const [screen, setScreen] = useState('menu');
   const [config, setConfig] = useState(() =>
     loadConfigFromCookies({
-      length: 66,
+      length: 40,
       target: 3,
       sparcity: 4,
       initTime: 250,
@@ -34,8 +34,10 @@ function Screen() {
 
   const [pendingResults, setPendingResults] = useState(null);
 
-  const setupTest = () => setScreen('count');
-  const setupTutorial = () => setScreen('tutorial');
+  const setupTest = () => loadSkipTutorial() ? startTest() : startTutorial();
+
+  const startTest = () => setScreen('count');
+  const startTutorial = () => setScreen('tutorial');
   
   const goToTest = () => setScreen('test');
   const goToResults = (score, responseTimes, sequence) => {
@@ -62,12 +64,12 @@ function Screen() {
 
   return (
     <div className={`screen ${screen === 'results' ? 'results-screen' : ''}`}>
-      {screen === 'menu' && <MainMenu config={config} setConfig={setConfig} start={setupTutorial} />}
+      {screen === 'menu' && <MainMenu config={config} setConfig={setConfig} start={setupTest} />}
       {screen === 'count' && <Countdown start={goToTest} />}
       {screen === 'test' && <Test config={config} onComplete={goToResults} />}
       {screen === 'results' && <Results results={results} back={goToMenu} config={config} />}
       {screen === 'complete' && <CompleteScreen onConfirm={confirmResults} />}
-      {screen === 'tutorial' && <Tutorial config={config} onDone={setupTest} />}
+      {screen === 'tutorial' && <Tutorial config={config} onDone={startTest} />}
 
     </div>
   );

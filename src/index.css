@@ -212,10 +212,10 @@ body {
 .saveButton:hover {
   background-color: #306a36;
 }
-/* lines */
+
+
 .tLine { margin:.45rem 0; }
 
-/* demo */
 .demo     { margin:1.6rem 0; opacity:0; animation:fade .8s forwards; }
 .demoNum  { font-size:6rem; margin-bottom:1rem; }
 
@@ -231,23 +231,17 @@ body {
   transition: background-color 0.2s ease;
   pointer-events:none;
 }
-
-/* auto-press effect */
 .goDemo.press { animation:press .25s ease; }
 @keyframes press { 0%{transform:scale(1);}50%{transform:scale(.85);}100%{transform:scale(1);} }
 
-/* fade helper */
 .fadeDemo { opacity:0; animation:fade .7s forwards; }
 @keyframes fade { to{opacity:1;} }
 
-/* navigation */
 .btnRow { display:flex; justify-content:center; gap:1.2rem; margin-top:2rem; }
 .btnRow button { background:none; border:none; color:#00e1ff; font-size:2rem; cursor:pointer; }
 
-/* ensure each page remounts cleanly to avoid flash */
 .tutorialScreen { position:relative; }
 
-/* full viewport layer that captures click until fade is done */
 .skipLayer {
   position: fixed;
   inset: 0;
@@ -255,7 +249,6 @@ body {
   z-index: 1000;
 }
 
-/* wrapper + box keep layout centred */
 .tutorialWrapper {
   width: 100%;
   height: 100%;
@@ -267,3 +260,56 @@ body {
 }
 
 .tutorialBox     { max-width:700px; width:100%; padding:1rem; text-align:center; }
+
+/* ---------- Skip Tutorial block ---------- */
+.skipTut {
+  background: #ff944d;      /* softer orange */
+  border-radius: 10px;
+  padding: 0.6rem 1rem;
+  margin-top: 1rem;
+  display: inline-block;
+  color: #fff;              /* white text */
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* align checkbox + text neatly */
+.skipTut label {
+  display: flex;
+  align-items: center;      /* vertical centering */
+  gap: 0.45rem;
+  cursor: pointer;
+}
+
+/* custom, smaller checkbox */
+.skipTut input[type="checkbox"] {
+  appearance: none;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid #fff;
+  border-radius: 5px;
+  background: transparent;
+  position: relative;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+/* checkmark */
+.skipTut input[type="checkbox"]::after {
+  content: "✔";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  font-size: 0.75rem;
+  color: transparent;
+  transition: color 0.15s ease;
+}
+
+/* checked state */
+.skipTut input[type="checkbox"]:checked {
+  background: #ff7a1a;
+  border-color: #ff7a1a;
+}
+.skipTut input[type="checkbox"]:checked::after {
+  color: #fff;
+}
